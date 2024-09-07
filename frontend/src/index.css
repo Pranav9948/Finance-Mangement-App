@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.section-container {
+  @apply container mobile:max-w-xs px-5 mx-auto mobile:px-0 largeMobile:max-w-sm smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl laptop:max-w-6xl largeDekstop:max-w-7xl;
+}
+
+.cart-container {
+  @apply container px-2 mx-auto  smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl laptop:max-w-6xl largeDekstop:max-w-7xl smallTablet:px-5 smallDekstop:px-10;
+}
+
+.small-main-menu-container {
+  @apply container mobile:max-w-xs px-5 mx-auto mobile:px-0 largeMobile:max-w-sm smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl;
+}
+
+.large-main-menu-container {
+  @apply laptop:container laptop:mx-auto  laptop:max-w-4xl largeDekstop:max-w-5xl ;
+}
