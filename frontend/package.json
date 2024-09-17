@@ -17,6 +17,7 @@
     "date-fns": "^3.6.0",
     "dayjs": "^1.11.6",
     "dotenv": "^16.4.5",
+    "finance": "file:..",
     "flowbite": "^2.5.1",
     "react": "^18.2.0",
     "react-color-palette": "^7.3.0",
