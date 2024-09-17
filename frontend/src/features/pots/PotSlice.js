@@ -39,12 +39,10 @@ const potsSlice = createSlice({
 
     withdrawMoneyFromPot: (state, action) => {
       if (state.pots.length === 1) {
-        console.log("hello");
-
-        state.pots = [];
+        setTimeout(() => {
+          state.pots = [];
+        }, 2000);
       } else {
-        console.log("mannn i am nog hello");
-
         state.pots = state.pots.filter((item) => item._id !== action.payload);
       }
 

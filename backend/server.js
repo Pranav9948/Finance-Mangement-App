@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import {
@@ -24,9 +25,6 @@ app.use(cors());
 
 console.log("port", port);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
 
 // For parsing application/json
 app.use(express.json());
@@ -40,6 +38,23 @@ app.use("/api/budgets", budgetRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/pots", potRoutes);
+
+
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve();
+ 
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+  );
+} else {
+  const __dirname = path.resolve();
+
+  app.get("/", (req, res) => {
+    res.send("API is running....");
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);
