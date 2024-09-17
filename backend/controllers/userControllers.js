@@ -22,9 +22,12 @@ const authUser = asyncHandler(async (req, res) => {
     await generateToken(res, userExist._id);
 
     return res.json({
-      id: userExist._id,
+      _id: userExist._id,
       email: userExist.email,
       username: userExist.username,
+      currentBalance: userExist.currentBalance,
+      income: userExist.income,
+      expense: userExist.expense,
     });
   }
 
@@ -60,6 +63,9 @@ const registerUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
+      currentBalance:user.currentBalance,
+      income:user.income,
+      expense:user.expense
     });
   } else {
     res.status(400);

@@ -40,7 +40,6 @@ const Sidebar = () => {
   ];
 
   const { pathname } = useLocation();
-  console.log("pa", pathname);
 
   return (
     <div className="h-full w-full">

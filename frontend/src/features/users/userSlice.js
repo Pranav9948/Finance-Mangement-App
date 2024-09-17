@@ -22,6 +22,7 @@ const userSlice = createSlice({
 
     logoutUser: (state, action) => {
       state.userInfo = null;
+
       localStorage.removeItem("userInfo");
       toast.success("user removed successfully");
     },
@@ -31,9 +32,15 @@ const userSlice = createSlice({
 
       localStorage.setItem("userInfo", JSON.stringify(action.payload));
     },
+
+    setuser: (state, action) => {
+      state.userInfo = action.payload;
+      localStorage.setItem("userInfo", JSON.stringify(action.payload));
+    },
   },
 });
 
-export const { loginUser, logoutUser, registerUser } = userSlice.actions;
+export const { loginUser, logoutUser, registerUser, setuser } =
+  userSlice.actions;
 
 export default userSlice.reducer;

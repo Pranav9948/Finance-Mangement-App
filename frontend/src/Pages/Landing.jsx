@@ -3,6 +3,8 @@ import OverviewCard from "../Components/OverviewCard";
 
 import PieCharts from "../Components/PieCharts";
 import { GiReceiveMoney } from "react-icons/gi";
+import { useSelector } from "react-redux";
+import { formatPrice } from "../utils";
 
 const Landing = () => {
   const potDetailsCard = [
@@ -116,6 +118,10 @@ const Landing = () => {
     },
   ];
 
+  const { username, currentBalance, income, expense } = useSelector(
+    (state) => state?.userState?.userInfo
+  );
+
   return (
     <div className="h-full">
       <div className="small-main-menu-container  large-main-menu-container h-full  ">
@@ -132,7 +138,7 @@ const Landing = () => {
             bg={"black"}
             color={"white"}
             text={"Current Balance"}
-            amount={"$4,836.00"}
+            amount={formatPrice(currentBalance)}
           />
 
           {/* card-2 */}
@@ -141,7 +147,7 @@ const Landing = () => {
             bg={"white"}
             color={"black"}
             text={"Income"}
-            amount={"$3,816.20"}
+            amount={formatPrice(income)}
           />
 
           {/* card-3 */}
@@ -150,7 +156,7 @@ const Landing = () => {
             bg={"white"}
             color={"black"}
             text={"Expenses"}
-            amount={"$1,800.00"}
+            amount={formatPrice(expense)}
           />
         </div>
 
@@ -237,13 +243,13 @@ const Landing = () => {
             {/* transaction-card */}
 
             <div className="flex flex-col gap-5">
-              {transactionsDummyData.map((data) => {
+              {transactionsDummyData.map((data, idx) => {
                 return (
-                  <div className="flex justify-between items-center w-full rounded-md shadow-sm py-4 px-2">
-                    <div
-                      className="w-12 h-12 rounded-full bg-red-600 flex justify-center items-center overflow-hidden "
-                      key={data.id}
-                    >
+                  <div
+                    className="flex justify-between items-center w-full rounded-md shadow-sm py-4 px-2"
+                    key={idx}
+                  >
+                    <div className="w-12 h-12 rounded-full bg-red-600 flex justify-center items-center overflow-hidden ">
                       <img
                         src={data.image}
                         alt="image"

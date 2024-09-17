@@ -7,12 +7,43 @@ const transactionSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    avatar: { type: String },
-    name: { type: String, required: true },
-    category: { type: String, required: true },
-    date: { type: Date, required: true },
-    amount: { type: Number, required: true },
-    recurring: { type: Boolean, default: false },
+    image: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      enum: [
+        "Personal Care",
+        "Dining",
+        "Groceries",
+        "Shopping",
+        "Entertainment",
+        "transportation",
+        "Healthcare",
+        "Bills",
+        "Miscellaneous",
+        "Pot Savings",
+      ],
+      required: true,
+    },
+    date: {
+      type: Date,
+      default: Date.now,
+    },
+    type: {
+      type: String,
+      enum: ["Credit", "Debit"],
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
@@ -22,3 +53,6 @@ const transactionSchema = mongoose.Schema(
 const Transaction = mongoose.model("Transaction", transactionSchema);
 
 export default Transaction
+
+
+

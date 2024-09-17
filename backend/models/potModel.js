@@ -7,10 +7,28 @@ const potSchema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    name: { type: String, required: true },
-    target: { type: Number, required: true },
-    total: { type: Number, required: true, default: 0 },
-    theme: { type: String, required: true },
+    color: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+
+    targetAmount: {
+      type: Number,
+      required: true,
+    },
+
+    savedAmount: {
+      type: Number,
+      required: true,
+    },
+    percentageSaved: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
