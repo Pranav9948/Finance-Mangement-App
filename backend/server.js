@@ -7,8 +7,12 @@ import {
 } from "../backend/middleware/errorMiddleware.js";
 import budgetRoutes from "./routes/budgetRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import transactionRoutes from "./routes/transactionRoutes.js";
+import potRoutes from "./routes/potRoutes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { v2 as cloudinary } from "cloudinary";
+import Multer from "multer"
 
 dotenv.config();
 connectDB();
@@ -34,6 +38,8 @@ app.use(cookieParser());
 
 app.use("/api/budgets", budgetRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/transactions", transactionRoutes);
+app.use("/api/pots", potRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

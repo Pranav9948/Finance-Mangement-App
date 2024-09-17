@@ -1,6 +1,16 @@
 import React from "react";
 
-const FormInput = ({ label, type, name }) => {
+const FormInput = ({
+  label,
+  type,
+  name,
+  onChange,
+  value,
+  defaultValue,
+  readonly,
+  maxValue,
+  minValue,
+}) => {
   return (
     <div className="flex flex-col ">
       <label
@@ -13,7 +23,13 @@ const FormInput = ({ label, type, name }) => {
         type={type}
         id={name}
         name={name}
-        className="px-5 py-3 mt-2 rounded-lg border-[#98908B] border placeholder:text-[#98908B]"
+        value={value}
+        defaultValue={defaultValue}
+        readOnly={readonly ? true : false}
+        min={minValue}
+        max={maxValue}
+        className={`px-5 py-3 mt-2 rounded-lg border-[#98908B] border placeholder:text-[#98908B]`}
+        onChange={onChange ? (e) => onChange(e) : undefined}
       />
     </div>
   );

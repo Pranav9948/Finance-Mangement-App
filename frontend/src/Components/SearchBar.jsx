@@ -1,17 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 
-const SearchBar = ({title}) => {
-
-   
-
+const SearchBar = ({ title, getSearchResults }) => {
   return (
     <div className="relative flex items-center  w-full">
-      <div className='w-full'>
+      <div className="w-full">
         <input
           type="text"
           className="py-3 px-3 w-full  rounded-md shadow-xs border-2 border-[#98908B] my-1 bg-white placeholder:text-sm"
           placeholder={title}
+          onChange={(e) => getSearchResults(e.target.value)}
         />
       </div>
 
@@ -20,6 +18,6 @@ const SearchBar = ({title}) => {
       </div>
     </div>
   );
-}
+};
 
-export default SearchBar
+export default SearchBar;
