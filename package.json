@@ -10,8 +10,8 @@
     "client": "npm run dev --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
-    "data:destroy": "node backend/seeder -D",
-    "build": "npm install && npm install --prefix frontend && npm run build --prefix frontend"
+    "data:destroy": "node backend/seeder -D"
+  
   },
   "author": "Pranav",
   "license": "ISC",
