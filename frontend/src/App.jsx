@@ -22,6 +22,7 @@ import { loader as TransactionsLoader } from "./Pages/Transactions";
 import { action as editTransactionAction } from "./Pages/EditTransactions";
 
 import { loader as potsLoader } from "./Pages/Pots";
+import { loader as RecurringbillsLoader } from "./Pages/Recurringbills";
 import { action as potAction } from "./Pages/Pots";
 import { loader as TransactionsDetailsLoader } from "./Pages/TransactiondetailedPage";
 
@@ -45,11 +46,12 @@ const router = createBrowserRouter([
         path: "pots",
         element: <Pots />,
         loader: potsLoader(store),
-        action: potAction(store)
+        action: potAction(store),
       },
       {
         path: "recurring-bills",
         element: <RecurringbillsPage />,
+        loader: RecurringbillsLoader(store),
       },
       {
         path: "transactions",

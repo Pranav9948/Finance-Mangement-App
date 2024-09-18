@@ -1,15 +1,15 @@
 import express from "express";
-import asyncHandler from "../middleware/errorMiddleware.js";
-import budgetsDB from "../models/budgetModel.js";
+
+
 import {
-  getAllRecurringBills,
-  getSingleRecurringBills,
-} from "../controllers/potController.js";
+ 
+  createBill,getBills
+} from "../controllers/recurringBillsControllers.js";
 
 const router = express.Router();
 
-router.route("/").get(getAllRecurringBills);
+router.route("/").get(getBills).post(createBill)
 
-router.route("/:id").get(getSingleRecurringBills);
+
 
 export default router;
