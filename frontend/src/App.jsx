@@ -25,7 +25,7 @@ import { loader as potsLoader } from "./Pages/Pots";
 import { loader as RecurringbillsLoader } from "./Pages/Recurringbills";
 import { action as potAction } from "./Pages/Pots";
 import { loader as TransactionsDetailsLoader } from "./Pages/TransactiondetailedPage";
-
+import { action as RecurringbillsAction } from "./Pages/Recurringbills";
 import { store } from "./store";
 
 const router = createBrowserRouter([
@@ -52,6 +52,7 @@ const router = createBrowserRouter([
         path: "recurring-bills",
         element: <RecurringbillsPage />,
         loader: RecurringbillsLoader(store),
+        action: RecurringbillsAction(store)
       },
       {
         path: "transactions",
