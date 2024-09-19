@@ -6,6 +6,7 @@ import {
 import TransactionModel from "../models/transactionModel.js";
 
 import UserModel from "../models/userModel.js";
+import budgetsDB from "../models/budgetModel.js";
 
 export const getCategories = asyncHandler(async (req, res) => {
   try {
@@ -174,6 +175,18 @@ export const makePayment = asyncHandler(async (req, res) => {
 
     await transaction.save();
 
+    const categoryBudget = await budgetsDB.findOne({
+      userId,
+      category: "Bills",
+    });
+    console.log("categoryBudget", categoryBudget);
+
+    categoryBudget.currentAmount += Number(recurringBill.amount);
+
+    categoryBudget.transactionIds.push(transaction._id);
+
+    await categoryBudget.save();
+
     if (user.currentBalance < Number(recurringBill.amount)) {
       return res.status(400).json({ message: "Insufficent Balance" });
     } else {
@@ -200,8 +213,6 @@ export const makePayment = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
-
 
 export const getAllPaidBills = asyncHandler(async (req, res) => {
   try {
@@ -230,7 +241,6 @@ export const getAllPaidBills = asyncHandler(async (req, res) => {
   }
 });
 
-
 export const getAllUnPaidBills = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
@@ -258,7 +268,6 @@ export const getAllUnPaidBills = asyncHandler(async (req, res) => {
   }
 });
 
-
 export const getAllOverdueBills = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
@@ -285,7 +294,6 @@ export const getAllOverdueBills = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 export const getUnPaidBillsinSevenDays = asyncHandler(async (req, res) => {
   try {
@@ -315,7 +323,6 @@ export const getUnPaidBillsinSevenDays = asyncHandler(async (req, res) => {
   }
 });
 
-
 export const getUnPaidBillsinFourteenDays = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
@@ -343,7 +350,6 @@ export const getUnPaidBillsinFourteenDays = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
-
 
 export const getUnPaidBillsinThirteenDays = asyncHandler(async (req, res) => {
   try {

@@ -1,6 +1,7 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import TransactionModel from "../models/transactionModel.js";
 import UserModel from "../models/userModel.js";
+import budgetsDB from "../models/budgetModel.js";
 
 export const getCategories = asyncHandler(async (req, res) => {
   try {
@@ -50,6 +51,17 @@ export const createNewTransaction = asyncHandler(async (req, res) => {
 
         var messages = true;
       }
+    }
+
+    if (type === "Debit") {
+      const categoryBudget = await budgetsDB.findOne({ userId, category });
+      console.log("categoryBudget", categoryBudget);
+
+      categoryBudget.currentAmount += Number(amount);
+
+      categoryBudget.transactionIds.push(transaction._id);
+
+      await categoryBudget.save();
     }
 
     if (messages) {

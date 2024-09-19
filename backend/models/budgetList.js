@@ -1,16 +1,12 @@
 import mongoose from "mongoose";
 
-const budgetSchema = mongoose.Schema(
+const budgetListSchema = mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-
-    color: { type: String, required: true },
-    currentAmount: { type: Number, required: true, default: 0 },
-    targetAmount: { type: Number, required: true },
     category: {
       type: String,
       enum: [
@@ -26,13 +22,10 @@ const budgetSchema = mongoose.Schema(
       ],
       required: true,
     },
-
-    transactionIds: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Transaction",
-      },
-    ],
+    color: { type: String, required: true },
+    currentAmount: { type: Number, required: true, default: 0 },
+    targetAmount: { type: Number, required: true },
+    freeAmount: { type: Number, required: true },
   },
   {
     timestamps: true,
