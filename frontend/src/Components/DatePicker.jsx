@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Datepicker from "tailwind-datepicker-react";
 
-const DatePicker = ({ label, selectedDate }) => {
+const DatePicker = ({ label, selectedDate ,name}) => {
   const options = {
     title: "Demo Title",
     autoHide: true,
@@ -50,20 +50,22 @@ const DatePicker = ({ label, selectedDate }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-full">
       <div className="mb-2">
         <span className="text-gray-600 font-sans font-semibold capitalize leading-5 pb-3 smallTablet:pb-0 ">
           {label}
         </span>
       </div>
 
-      <div className="">
+      <div className="h-full">
         <Datepicker
           options={options}
           onChange={handleChange}
           show={show}
           setShow={handleClose}
           value={selectedDate}
+          name={name}
+     
         />
       </div>
     </div>

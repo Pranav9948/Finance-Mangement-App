@@ -120,6 +120,7 @@ const Transactions = () => {
 
   const [sortOption, setSortOption] = useState("Sort by");
   const [categoryOption, setCategoryOption] = useState("AllTransactions");
+  const [allCategories, setCategories] = useState([]);
 
   const transactionData = useLoaderData();
 
@@ -203,6 +204,18 @@ const Transactions = () => {
     dispatch(dispacthFn());
   };
 
+  const fetchAllCategories = async () => {
+    try {
+      const { data } = await customFetch.get("/transactions/getcategories");
+
+    
+      
+      setCategories(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // UseEffect to trigger an image update if either the merchant or category changes
   useEffect(() => {
     if (merchantName) {
@@ -211,6 +224,12 @@ const Transactions = () => {
       fetchImageFromUnsplash(category);
     }
   }, [merchantName, category]);
+
+  useEffect(() => {
+    fetchAllCategories();
+  }, []);
+
+ 
 
   return (
     <div className="bg-[#F8F4F0] ">
@@ -242,7 +261,12 @@ const Transactions = () => {
                   </div>
 
                   <div className="mt-4 smallTablet:mt-0 w-full max-w-full ">
-                    <CategorySelectBox onChange={handleCategoryChange} />
+                    <CategorySelectBox
+                      onChange={handleCategoryChange}
+                      allCategories={allCategories}
+                      label={"choose category of merchant"}
+                      name={"category"}
+                    />
                   </div>
 
                   <div className="mt-4 smallTablet:mt-0  w-full max-w-full ">
@@ -255,7 +279,7 @@ const Transactions = () => {
                   </div>
 
                   <div className="mt-4 smallTablet:mt-0 w-full max-w-full ">
-                    <DatePicker label={"choose Date"} />
+                    <DatePicker label={"choose Date"} name={'date'} />
                   </div>
 
                   <div className="mt-4 smallTablet:mt-0 w-full max-w-full">
@@ -295,8 +319,6 @@ const Transactions = () => {
             </div>
 
             <div>
-         
-
               {/* first section---balance, income, expenses */}
 
               <div className="flex flex-col smallTablet:flex-row gap-6  w-full max-w-full my-10">
