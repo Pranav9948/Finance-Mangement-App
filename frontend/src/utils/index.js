@@ -19,7 +19,6 @@ export const formatPrice = (price) => {
 };
 
 export const formatDate = (dateString) => {
-
   const date = new Date(dateString);
 
   const day = String(date.getDate()).padStart(2, "0");
@@ -27,4 +26,22 @@ export const formatDate = (dateString) => {
   const year = date.getFullYear();
 
   return `${day}-${month}-${year}`;
+};
+
+export const formatToKPrice = (price) => {
+  const rupee = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+  });
+
+  let formattedPrice;
+
+  if (price > 10000) {
+    // Convert price to thousands (k format)
+    formattedPrice = `${(price / 1000).toFixed(1)}k`;
+  } else {
+    formattedPrice = rupee.format(price);
+  }
+
+  return formattedPrice;
 };

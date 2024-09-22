@@ -1,11 +1,12 @@
 import asyncHandler from "../middleware/asyncHandler.js";
 import TransactionModel from "../models/transactionModel.js";
 import UserModel from "../models/userModel.js";
+import budgetsDB from "../models/budgetModel.js";
 
 export const getCategories = asyncHandler(async (req, res) => {
   try {
     // Extract the enum values from the schema
-    console.log("mannn");
+
 
     const categories = TransactionModel.schema.path("category").enumValues;
 
@@ -18,6 +19,8 @@ export const getCategories = asyncHandler(async (req, res) => {
 export const createNewTransaction = asyncHandler(async (req, res) => {
   const userId = req.headers["user-id"];
   const { image, name, category, type, amount, date } = req.body;
+
+  let categoryBudget;
 
   try {
     const user = await UserModel.findById(userId);
@@ -42,28 +45,41 @@ export const createNewTransaction = asyncHandler(async (req, res) => {
       await transaction.save();
     } else if (type === "Debit") {
       if (user.currentBalance >= amount) {
+        categoryBudget = await budgetsDB.findOne({ userId, category });
+
+        const { currentAmount, targetAmount } = categoryBudget;
+
+        const upcomingAmount = currentAmount + Number(amount);
+
+        if (upcomingAmount > targetAmount) {
+          throw new Error(`${category} budget limit exceeded`);
+        }
+
         user.currentBalance -= Number(amount);
         user.expense += Number(amount);
         await transaction.save();
       } else {
         await user.save();
 
-        var messages = true;
+        throw new Error("insufficent Balance");
       }
     }
 
-    if (messages) {
-      await user.save();
+    if (type === "Debit") {
+      categoryBudget = await budgetsDB.findOne({ userId, category });
 
-      res
-        .status(201)
-        .json({ transaction, user, message: "Insufficent Balance" });
-    } else {
-      await user.save();
-      res.status(201).json({ transaction, user });
+      categoryBudget.currentAmount += Number(amount);
+
+      categoryBudget.transactionIds.push(transaction._id);
+
+      await categoryBudget.save();
     }
+
+    await user.save();
+    res.status(201).json({ transaction, user, categoryBudget });
   } catch (err) {
     res.status(400);
+    console.log("err", err);
     throw new Error(err);
   }
 });
@@ -120,17 +136,17 @@ export const editTransaction = asyncHandler(async (req, res) => {
 
     res.status(200).json({ transaction, user });
   } catch (err) {
+    console.log("err", err);
+
     throw new Error(err);
   }
 });
 
 export const deleteTransaction = asyncHandler(async (req, res) => {
   const userId = req.headers["user-id"];
-  console.log(req.params);
 
   const id = req.params.id.trim();
 
-  console.log("id mann", id);
 
   try {
     const user = await UserModel.findById(userId);
@@ -139,7 +155,7 @@ export const deleteTransaction = asyncHandler(async (req, res) => {
     }
 
     const transaction = await TransactionModel.findById(id);
-    console.log("transaction", transaction);
+
 
     if (transaction) {
       // Adjust balance based on the transaction type before deleting

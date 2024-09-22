@@ -1,17 +1,26 @@
 import React, { useState } from "react";
-import { PieChart, Pie, Tooltip, Cell } from "recharts";
+import { useSelector } from "react-redux";
+import { PieChart, Pie, Tooltip, Cell, LabelList } from "recharts";
 
-const PieCharts = ({width,height,outerRadius}) => {
+const PieCharts = ({ width, height, outerRadius, pieData }) => {
   const [activeIndex, setActiveIndex] = useState(-1);
 
-  const data = [
-    { name: "Entertainment", students:50 },
-    { name: "Bills", students: 750 },
-    { name: "Dining Out", students: 75 },
-    { name: "personal care", students: 100},
-  ];
+  let pieValue = "targetAmount";
 
-  const COLORS = ["#277C78", "#626070", "#82C9D7", "#F2CDAC"];
+  const bills = useSelector((state) => state.billState.bills) || [];
+  const transactions =
+    useSelector((state) => state.transactionState.transactions) || [];
+
+  const data = pieData?.map((item) => ({
+    name: item.category,
+    currentAmount: item.currentAmount,
+    targetAmount: item.targetAmount,
+    color: item.color,
+  }));
+
+  if (transactions.length > 0 || bills.length > 0) {
+    pieValue = "currentAmount";
+  }
 
   const onPieEnter = (_, index) => {
     setActiveIndex(index);
@@ -23,29 +32,30 @@ const PieCharts = ({width,height,outerRadius}) => {
         <PieChart width={width} height={height}>
           <Pie
             activeIndex={activeIndex}
+            isAnimationActive={true}
             data={data}
-            dataKey="students"
+            dataKey={pieValue}
             outerRadius={outerRadius}
             fill="green"
             onMouseEnter={onPieEnter}
             style={{ cursor: "pointer", outline: "none" }}
           >
-            {data.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
-              />
+
+                
+
+
+            {data?.map((entry, index) => (
+        
+                
+                <Cell key={entry.name} fill={entry.color} />
+            
             ))}
           </Pie>
           <Tooltip />
         </PieChart>
       </div>
-
-     
     </div>
   );
 };
 
 export default PieCharts;
-
-

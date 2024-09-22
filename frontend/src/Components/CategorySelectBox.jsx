@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-
-const CategorySelectBox = ({ onChange, selected, allCategories ,label ,name}) => {
+const CategorySelectBox = ({
+  onChange,
+  selected,
+  allCategories,
+  label,
+  name,
+}) => {
   return (
     <div>
       <label className="form-control w-full max-w-full">
@@ -20,7 +25,7 @@ const CategorySelectBox = ({ onChange, selected, allCategories ,label ,name}) =>
           <option disabled selected>
             Pick one
           </option>
-          {allCategories.map((category) => {
+          {allCategories?.map((category) => {
             return (
               <option defaultValue={category} value={category} key={category}>
                 {category}
@@ -30,7 +35,6 @@ const CategorySelectBox = ({ onChange, selected, allCategories ,label ,name}) =>
         </select>
       </label>
     </div>
-   
   );
 };
 

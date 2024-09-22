@@ -16,7 +16,7 @@ import recurringBills from "./data/recurringBill.js";
 // db
 import potsDB from "./models/potModel.js";
 import transactionsDB from "./models/transactionModel.js";
-import recuringBillsDB from "./models/RecuringBillModel.js";
+import {RecurringBill,ParentRecurringBill}  from "./models/RecuringBillModel.js";
 import budgetsDB from "./models/budgetModel.js";
 import usersDB from "./models/userModel.js";
 
@@ -39,7 +39,8 @@ const importData = async () => {
 
     await transactionsDB.deleteMany();
     await potsDB.deleteMany();
-    await recuringBillsDB.deleteMany();
+    await RecurringBill.deleteMany();
+    await ParentRecurringBill.deleteMany()
      await budgetsDB.deleteMany();
      await usersDB.deleteMany()
 
@@ -69,7 +70,8 @@ const destroyData = async () => {
   try {
       await transactionsDB.deleteMany();
       await potsDB.deleteMany();
-      await recuringBillsDB.deleteMany();
+    await RecurringBill.deleteMany();
+    await ParentRecurringBill.deleteMany();
       await budgetsDB.deleteMany();
       await usersDB.deleteMany();
 

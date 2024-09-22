@@ -29,6 +29,7 @@ import {
 } from "../features/bills/ParentBillSlice";
 import OverviewCard from "../Components/OverviewCard";
 import { GiOverkill } from "react-icons/gi";
+import { updatebudget } from "../features/budgets/BudgetSlice";
 
 export const loader =
   (store) =>
@@ -45,8 +46,7 @@ export const loader =
       });
 
       const { parentRecurringBill, recurringBill } = data;
-      console.log("dstamone", data);
-
+    
       store.dispatch(listAllBills(recurringBill));
       store.dispatch(UpdateParentBills(parentRecurringBill));
 
@@ -68,14 +68,16 @@ export const action =
 
     const formdata = Object.fromEntries(await request.formData());
 
-    console.log("form", formdata);
+    
 
     try {
       const { data } = await customFetch.post("/recurring-bills", formdata, {
         headers: { "user-id": userId },
       });
 
-      const { bill, message } = data;
+      const { bill, message, categoryBudget } = data;
+
+      
 
       store.dispatch(createNewBills(bill));
       store.dispatch(createParentBills(parentRecurringBill));
@@ -118,8 +120,6 @@ const Recurringbills = () => {
   const { username, currentBalance, income, expense, _id } = useSelector(
     (state) => state?.userState?.userInfo
   );
-
-  console.log("parentBillData", parentBillData);
 
   const [merchantImage, setMerchantImage] = useState(
     "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/800px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
@@ -215,14 +215,21 @@ const Recurringbills = () => {
         }
       );
 
-      const { parentRecurringBill, recurringBill, user, transaction } = data;
+      const {
+        parentRecurringBill,
+        recurringBill,
+        user,
+        transaction,
+        categoryBudget,
+      } = data;
 
-      console.log("data payment", data);
+  
 
       dispatch(setuser(user));
       dispatch(createNewtransaction(transaction));
       dispatch(UpdateParentBills(parentRecurringBill));
       dispatch(updateBills(recurringBill));
+      dispatch(updatebudget(categoryBudget));
 
       toast.success("Amount Payed Successfully successfully...");
 
@@ -238,10 +245,7 @@ const Recurringbills = () => {
     }
   };
 
-
-
-
-    const getAllPaidBills = async () => {
+  const getAllPaidBills = async () => {
     setShowPaidBills(true);
     setPaymentStatus("Paid");
 
@@ -253,7 +257,7 @@ const Recurringbills = () => {
           "user-id": userId,
         },
       });
-      console.log("dattanome", data?.paidBills);
+      
 
       dispatch(listAllBills(data?.paidBills));
 
@@ -278,7 +282,7 @@ const Recurringbills = () => {
           "user-id": userId,
         },
       });
-      console.log("dattanome", data?.unpaidBills);
+    
 
       dispatch(listAllBills(data?.unpaidBills));
 
@@ -306,7 +310,7 @@ const Recurringbills = () => {
           },
         }
       );
-      console.log("dattanome", data?.unpaidBills);
+  
 
       dispatch(listAllBills(data?.unpaidBills));
 
@@ -361,7 +365,7 @@ const Recurringbills = () => {
           },
         }
       );
-      console.log("dattanome", data?.unpaidBills);
+      
 
       dispatch(listAllBills(data?.unpaidBills));
 
@@ -398,13 +402,11 @@ const Recurringbills = () => {
     }
   };
 
+  const getSearchResults = (searchText) => {
 
 
-   const getSearchResults = (searchText) => {
-    console.log('searchtext',searchText);
-    
-     dispatch(searchBills(searchText));
-   };
+    dispatch(searchBills(searchText));
+  };
 
   return (
     <div className="h-full bg-[#F8F4F0] py-6 mobile:px-2">

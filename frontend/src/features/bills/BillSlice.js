@@ -25,7 +25,7 @@ const billsSlice = createSlice({
     },
 
     updateBills: (state, action) => {
-      console.log("action.payload", action.payload);
+     
 
       const Index = state.bills.findIndex(
         (bill) => bill._id === action.payload._id
