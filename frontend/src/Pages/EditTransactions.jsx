@@ -21,7 +21,7 @@ import axios from "axios";
 export const action =
   (store) =>
   async ({ request, params }) => {
-    console.log(params, "param");
+  
 
     const userInfo = store.getState()?.userState?.userInfo;
 
@@ -29,7 +29,6 @@ export const action =
 
     const formdata = Object.fromEntries(await request.formData());
 
-    console.log("form", formdata);
 
     try {
       const { data } = await customFetch.put(
@@ -89,7 +88,7 @@ export const loader =
 const EditTransactions = () => {
   const data = useLoaderData();
 
-  console.log(`data`, data);
+
 
   const [merchantName, setMerchantName] = useState(data?.name || "");
   const [category, setCategory] = useState(data?.category || "");
@@ -199,7 +198,7 @@ const EditTransactions = () => {
   // Example usage
   const isoDateString = "2022-01-04T18:30:00.000Z";
   const normalDate = convertToNormalDate(isoDateString);
-  console.log(normalDate); // Output: "January 4, 2022"
+
 
   return (
     <div className="bg-[#F8F4F0] ">

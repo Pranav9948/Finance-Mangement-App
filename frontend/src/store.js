@@ -5,6 +5,7 @@ import transactionsReducer from "./features/transactions/TransactionSlice";
 import potReducer from "./features/pots/PotSlice";
 import billReducer from "./features/bills/BillSlice";
 import ParentBillsReducer from "./features/bills/ParentBillSlice";
+import BudgetReducer from "./features/budgets/BudgetSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export const store = configureStore({
     potState: potReducer,
     billState: billReducer,
     parentBillsState: ParentBillsReducer,
+    budgetState: BudgetReducer,
   },
 });

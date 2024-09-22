@@ -3,7 +3,15 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import usersDB from "../models/userModel.js";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
+import budgetsDB from "../models/budgetModel.js";
 import generateToken from "../utils/generateToken.js";
+import potModel from "../models/potModel.js";
+import UserModel from "../models/userModel.js";
+import TransactionModel from "../models/transactionModel.js";
+import {
+  ParentRecurringBill,
+  RecurringBill,
+} from "../models/RecuringBillModel.js";
 
 //  @desc  Auth User & Get Token
 //  @routes POST api/users/login
@@ -12,7 +20,9 @@ import generateToken from "../utils/generateToken.js";
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  console.log(req.body);
+  if (!email || !password) {
+    throw new Error("pls fill all fields");
+  }
 
   // check if email exist
 
@@ -42,6 +52,10 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
 
+  if (!username || !email || !password) {
+    throw new Error("pls fill all fields");
+  }
+
   const userExists = await usersDB.findOne({ email });
 
   if (userExists) {
@@ -56,6 +70,19 @@ const registerUser = asyncHandler(async (req, res) => {
   });
 
   if (user) {
+    const categories = budgetsDB.schema.path("category").enumValues;
+
+    const budgetPromises = categories.map(async (category) => {
+      const newBudget = new budgetsDB({
+        userId: user._id,
+        category: category,
+      });
+
+      return newBudget.save();
+    });
+
+    await Promise.all(budgetPromises);
+
     generateToken(res, user._id);
 
     res.status(201).json({
@@ -63,9 +90,9 @@ const registerUser = asyncHandler(async (req, res) => {
       username: user.username,
       email: user.email,
       isAdmin: user.isAdmin,
-      currentBalance:user.currentBalance,
-      income:user.income,
-      expense:user.expense
+      currentBalance: user.currentBalance,
+      income: user.income,
+      expense: user.expense,
     });
   } else {
     res.status(400);
@@ -130,10 +157,75 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const getDataforHomePage = asyncHandler(async (req, res) => {
+  const userId = req.headers["user-id"];
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const latestFourPots = await potModel
+      .find({ userId })
+      .sort({ createdAt: 1 })
+      .limit(4);
+
+    const latestFourTransactions = await TransactionModel.find({ userId })
+      .sort({ createdAt: -1 })
+      .limit(5);
+
+    const pots = await potModel.find({ userId });
+    const sumOfSavedPots = pots.reduce((acc, pot) => acc + pot.savedAmount, 0);
+
+    const budgets = await budgetsDB.find({ userId });
+
+    const paidBills = await RecurringBill.find({
+      userId: userId,
+      paidStatus: "Paid",
+    });
+
+    const UnpaidBills = await RecurringBill.find({
+      userId: userId,
+      paidStatus: "Unpaid",
+    });
+
+    const OverdueBills = await RecurringBill.find({
+      userId: userId,
+      paidStatus: "Overdue",
+    });
+
+    const paidBillSum = paidBills.reduce((acc, bill) => acc + bill.amount, 0);
+
+    const UnpaidBillsSum = UnpaidBills.reduce(
+      (acc, bill) => acc + bill.amount,
+      0
+    );
+
+    const OverdueBillSum = OverdueBills.reduce(
+      (acc, bill) => acc + bill.amount,
+      0
+    );
+
+    res.status(200).json({
+      latestFourPots,
+      sumOfSavedPots,
+      latestFourTransactions,
+      budgets,
+      paidBillSum,
+      UnpaidBillsSum,
+      OverdueBillSum,
+    });
+  } catch (err) {
+    throw new Error(err);
+  }
+});
+
 export {
   authUser,
   getUserProfile,
   logoutUser,
   registerUser,
   updateUserProfile,
+  getDataforHomePage,
 };

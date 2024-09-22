@@ -21,6 +21,8 @@ export const action =
 
       return redirect("/");
     } catch (err) {
+      console.log('err',err);
+      
       let errorMsg = err?.response?.data?.message;
       console.error(errorMsg);
       toast.error(errorMsg);
@@ -48,9 +50,9 @@ const Register = () => {
 
             <Form method="post">
               <div>
-                <FormInput label="username" type="text" name="username" />
+                <FormInput label="username" type="text" name="username"  />
               </div>
-              <div>
+              <div className="mt-4">
                 <FormInput label="email" type="text" name="email" />
               </div>
 

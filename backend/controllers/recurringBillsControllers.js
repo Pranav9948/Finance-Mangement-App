@@ -37,7 +37,7 @@ const updateParentBill = (parentBill, newBill) => {
     parentBill.totalUpcomingBills += 1;
   }
 
-  console.log("daysUntilDue", daysUntilDue);
+ 
 
   if (0 <= daysUntilDue && daysUntilDue < 7) {
     parentBill.dueSoonBills += 1;
@@ -79,7 +79,7 @@ export const createBill = asyncHandler(async (req, res) => {
 
     const savedBill = await newBill.save();
 
-    console.log("saved", savedBill);
+ 
 
     let parentBill = await ParentRecurringBill.findOne({ userId });
 
@@ -109,7 +109,7 @@ export const createBill = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error("Error creating bill:", error);
-    res.status(500).json({ message: "Internal server error" });
+    throw new Error(error);
   }
 });
 
@@ -136,8 +136,7 @@ export const getBills = asyncHandler(async (req, res) => {
 export const makePayment = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
-    console.log("userId", userId);
-
+ 
     const user = await UserModel.findById(userId);
 
     const id = req.params.id.trim();
@@ -150,10 +149,23 @@ export const makePayment = asyncHandler(async (req, res) => {
 
     const recurringBill = await RecurringBill.findById(id);
 
-    console.log("recurring Bill", recurringBill);
+    const { amount } = recurringBill;
 
     if (!recurringBill && !parentRecurringBill) {
       res.status(400).json({ message: "Bill not found..." });
+    }
+
+    const categoryBudget = await budgetsDB.findOne({
+      userId,
+      category: "Bills",
+    });
+
+    const { currentAmount, targetAmount } = categoryBudget;
+
+    const upcomingAmount = currentAmount + Number(amount);
+
+    if (upcomingAmount > targetAmount) {
+      throw new Error(`Bills budget limit exceeded`);
     }
 
     recurringBill.paidStatus = "Paid";
@@ -175,11 +187,7 @@ export const makePayment = asyncHandler(async (req, res) => {
 
     await transaction.save();
 
-    const categoryBudget = await budgetsDB.findOne({
-      userId,
-      category: "Bills",
-    });
-    console.log("categoryBudget", categoryBudget);
+  
 
     categoryBudget.currentAmount += Number(recurringBill.amount);
 
@@ -204,20 +212,23 @@ export const makePayment = asyncHandler(async (req, res) => {
       }
       await parentRecurringBill.save();
 
-      res
-        .status(201)
-        .json({ parentRecurringBill, recurringBill, user, transaction });
+      res.status(201).json({
+        parentRecurringBill,
+        recurringBill,
+        user,
+        transaction,
+        categoryBudget,
+      });
     }
   } catch (error) {
     console.error("Error creating bill:", error);
-    res.status(500).json({ message: "Internal server error" });
+    throw new Error(error);
   }
 });
 
 export const getAllPaidBills = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
-    console.log("userId", userId);
 
     const user = await UserModel.findById(userId);
 
@@ -244,7 +255,7 @@ export const getAllPaidBills = asyncHandler(async (req, res) => {
 export const getAllUnPaidBills = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
-    console.log("userId", userId);
+  
 
     const user = await UserModel.findById(userId);
 
@@ -271,7 +282,7 @@ export const getAllUnPaidBills = asyncHandler(async (req, res) => {
 export const getAllOverdueBills = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
-    console.log("userId", userId);
+  
 
     const user = await UserModel.findById(userId);
 
@@ -298,7 +309,6 @@ export const getAllOverdueBills = asyncHandler(async (req, res) => {
 export const getUnPaidBillsinSevenDays = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
-    console.log("userId", userId);
 
     const user = await UserModel.findById(userId);
 
@@ -326,7 +336,7 @@ export const getUnPaidBillsinSevenDays = asyncHandler(async (req, res) => {
 export const getUnPaidBillsinFourteenDays = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
-    console.log("userId", userId);
+
 
     const user = await UserModel.findById(userId);
 
@@ -354,7 +364,7 @@ export const getUnPaidBillsinFourteenDays = asyncHandler(async (req, res) => {
 export const getUnPaidBillsinThirteenDays = asyncHandler(async (req, res) => {
   try {
     const userId = req.headers["user-id"];
-    console.log("userId", userId);
+   
 
     const user = await UserModel.findById(userId);
 

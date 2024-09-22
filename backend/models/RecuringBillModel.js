@@ -30,15 +30,10 @@ const recurringBillSchema = new Schema({
     enum: ["Utilities", "Rent", "Subscriptions", "Loans", "Insurance", "Other"],
     required: true,
   },
-dueDay:{
-
-   type: Number,
+  dueDay: {
+    type: Number,
     required: true,
-
-},
-  
-
-
+  },
 
   frequency: {
     type: String,

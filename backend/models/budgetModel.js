@@ -8,9 +8,9 @@ const budgetSchema = mongoose.Schema(
       required: true,
     },
 
-    color: { type: String, required: true },
-    currentAmount: { type: Number, required: true, default: 0 },
-    targetAmount: { type: Number, required: true },
+    color: { type: String },
+    currentAmount: { type: Number, default: 0 },
+    targetAmount: { type: Number },
     category: {
       type: String,
       enum: [

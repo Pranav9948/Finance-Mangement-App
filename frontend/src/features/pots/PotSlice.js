@@ -17,7 +17,6 @@ const potsSlice = createSlice({
     listAllPots: (state, action) => {
       state.pots = action.payload;
 
-      console.log("state", state.pots);
 
       localStorage.setItem("pots", JSON.stringify(action.payload));
     },
