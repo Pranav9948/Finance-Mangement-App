@@ -24,6 +24,12 @@ const userSlice = createSlice({
       state.userInfo = null;
 
       localStorage.removeItem("userInfo");
+      localStorage.removeItem("ParentBills");
+      localStorage.removeItem("bills");
+      localStorage.removeItem("budgets");
+      localStorage.removeItem("pots");
+      localStorage.removeItem("transactions");
+
       toast.success("user removed successfully");
     },
 

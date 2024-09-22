@@ -5,7 +5,7 @@ import UserModel from "../models/userModel.js";
 
 const getAllBudgets = asyncHandler(async (req, res) => {
   const userId = req.headers["user-id"];
-  console.log("userID", userId);
+
 
   try {
     const user = await UserModel.findById(userId);
@@ -22,8 +22,6 @@ const getAllBudgets = asyncHandler(async (req, res) => {
       })
       .exec();
 
-    console.log("budgets", budgets);
-
     res.status(200).json(budgets);
   } catch (err) {
     res.status(400);
@@ -31,12 +29,19 @@ const getAllBudgets = asyncHandler(async (req, res) => {
   }
 });
 
-const createBudget = asyncHandler(async (req, res) => {
+const updateBudget = asyncHandler(async (req, res) => {
   const userId = req.headers["user-id"];
-  console.log("userID", userId, req.body);
+  
 
   const { formdata } = req.body;
-  const { color, targetAmount, category } = formdata;
+  const { color, targetAmount, currentAmount, category } = formdata;
+
+  if (!color || !targetAmount || !category) {
+    res.status(400);
+    throw new Error("pls fill all fields");
+  }
+
+
 
   try {
     const user = await UserModel.findById(userId);
@@ -45,26 +50,20 @@ const createBudget = asyncHandler(async (req, res) => {
       throw new Error("User not found");
     }
 
-    const categoryExist = await budgetsDB.findOne({ category: category });
-    if (categoryExist) {
-      res.status(404);
-      throw new Error("category already exist ");
-    }
+    const categoryBudget = await budgetsDB.findOne({ category, userId });
 
-    const newBudget = new budgetsDB({
-      userId,
-      color,
-      targetAmount,
-      category,
-      currentAmount: 0,
-      transactionIds: [],
-    });
+    categoryBudget.targetAmount = targetAmount || categoryBudget.targetAmount;
+    categoryBudget.currentAmount =
+      currentAmount || categoryBudget.currentAmount;
+    categoryBudget.color = color || categoryBudget.color;
 
-    await newBudget.save();
+    await categoryBudget.save();
 
-    res.status(200).json(newBudget);
+    res.status(200).json(categoryBudget);
   } catch (err) {
     res.status(400);
+    console.log("err", err);
+
     throw new Error(err);
   }
 });
@@ -79,4 +78,29 @@ const getCategories = asyncHandler(async (req, res) => {
   }
 });
 
-export { getAllBudgets, createBudget, getCategories };
+const getAllSetBudgets = asyncHandler(async (req, res) => {
+  const userId = req.headers["user-id"];
+
+
+  try {
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      res.status(404);
+      throw new Error("User not found");
+    }
+
+    const budgets = await budgetsDB.find({
+      userId,
+      targetAmount: { $exists: false },
+    });
+
+  
+
+    res.status(200).json(budgets);
+  } catch (err) {
+    res.status(400);
+    throw new Error(err);
+  }
+});
+
+export { getAllBudgets, updateBudget, getCategories, getAllSetBudgets };

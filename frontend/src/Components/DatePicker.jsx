@@ -43,7 +43,7 @@ const DatePicker = ({ label, selectedDate ,name}) => {
 
   const [show, setShow] = useState(false);
   const handleChange = (selectedDate) => {
-    console.log(selectedDate);
+   
   };
   const handleClose = (state) => {
     setShow(state);

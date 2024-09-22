@@ -22,7 +22,7 @@ export const loader = (store) => async (req, res) => {
   try {
     const userId = store.getState()?.userState?.userInfo?._id;
 
-    console.log("userId", userId);
+ 
 
     const { data } = await customFetch.get("/pots", {
       headers: { "user-id": userId },
@@ -47,7 +47,7 @@ export const action =
 
     const formdata = Object.fromEntries(await request.formData());
 
-    console.log("form", formdata);
+
 
     try {
       const { data } = await customFetch.post("/pots", formdata, {
@@ -116,7 +116,7 @@ export const Pots = () => {
           },
         }
       );
-      console.log("add", data);
+
 
       const { pot, user, transaction } = data;
 
@@ -161,7 +161,7 @@ export const Pots = () => {
             },
           }
         );
-        console.log("add", data);
+     
 
         const { pot, user, transaction } = data;
 

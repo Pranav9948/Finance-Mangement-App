@@ -53,20 +53,21 @@ export const addMoney = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-
     console.log(
       "user.currentBalance",
       user.currentBalance,
-     Number(savedAmount)
+      Number(savedAmount)
     );
-    
 
     if (user.currentBalance >= Number(savedAmount)) {
       const pot = await potModel.findById(potId);
 
       pot.savedAmount += Number(savedAmount);
 
-      const savedPercentage = ((pot.savedAmount / pot.targetAmount) * 100).toFixed(2);
+      const savedPercentage = (
+        (pot.savedAmount / pot.targetAmount) *
+        100
+      ).toFixed(2);
 
       console.log("saved", savedPercentage);
 
@@ -105,7 +106,6 @@ export const addMoney = asyncHandler(async (req, res) => {
 export const withDrawMoney = asyncHandler(async (req, res) => {
   const userId = req.headers["user-id"];
 
-
   const potId = req.params.id.trim();
 
   console.log("id mann", potId);
@@ -114,11 +114,10 @@ export const withDrawMoney = asyncHandler(async (req, res) => {
     const user = await UserModel.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
-    } 
+    }
 
     const pot = await potModel.findById(potId);
-    console.log('potte',pot);
-    
+    console.log("potte", pot);
 
     user.currentBalance += Number(pot.savedAmount);
     user.income += Number(pot.savedAmount);
@@ -143,9 +142,7 @@ export const withDrawMoney = asyncHandler(async (req, res) => {
     await transaction.save();
 
     res.status(201).json({ user, pot, transaction });
-  }
-  
-  catch (err) {
+  } catch (err) {
     throw new Error(err);
   }
 });

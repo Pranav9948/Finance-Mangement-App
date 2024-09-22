@@ -15,7 +15,7 @@ const ParentBillsSlice = createSlice({
   initialState,
   reducers: {
     createParentBills: (state, action) => {
-      console.log(action.payload, action.payload);
+   
 
       state.ParentBills = action.payload;
 

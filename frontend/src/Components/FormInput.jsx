@@ -30,6 +30,7 @@ const FormInput = ({
         max={maxValue}
         className={`px-5 py-3 mt-2 rounded-lg border-[#98908B] border placeholder:text-[#98908B]`}
         onChange={onChange ? (e) => onChange(e) : undefined}
+        required
       />
     </div>
   );

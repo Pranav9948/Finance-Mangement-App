@@ -48,7 +48,7 @@ const TransactiondetailedPage = () => {
 
   const userId = useSelector((state) => state?.userState?.userInfo?._id);
 
-  console.log("data here", transactionIdValue);
+
 
   const deleteTransaction = async () => {
     try {
@@ -59,7 +59,6 @@ const TransactiondetailedPage = () => {
         }
       );
 
-      console.log(`data`, data);
 
       navigate("/transactions");
     } catch (err) {

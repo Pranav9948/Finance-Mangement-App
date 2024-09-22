@@ -30,6 +30,11 @@ import {
   deleteTransactions,
 } from "../features/transactions/TransactionSlice";
 import { setuser } from "../features/users/userSlice";
+import {
+  createNewbudget,
+  listAllBudgets,
+  updatebudget,
+} from "../features/budgets/BudgetSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import OverviewCard from "../Components/OverviewCard";
@@ -43,22 +48,19 @@ export const action =
 
     const formdata = Object.fromEntries(await request.formData());
 
-    console.log("form", formdata);
 
     try {
       const { data } = await customFetch.post("/transactions", formdata, {
         headers: { "user-id": userId },
       });
 
-      const { transaction, user, message } = data;
+      const { transaction, user, message, categoryBudget } = data;
 
       store.dispatch(createNewtransaction(transaction));
       store.dispatch(setuser(user));
+      store.dispatch(updatebudget(categoryBudget));
 
-      if (message) {
-        toast.error("Insufficent Balance");
-        return "hello";
-      }
+      
 
       toast.success("transactions made successfully");
 
@@ -208,8 +210,6 @@ const Transactions = () => {
     try {
       const { data } = await customFetch.get("/transactions/getcategories");
 
-    
-      
       setCategories(data);
     } catch (err) {
       console.error(err);
@@ -228,8 +228,6 @@ const Transactions = () => {
   useEffect(() => {
     fetchAllCategories();
   }, []);
-
- 
 
   return (
     <div className="bg-[#F8F4F0] ">
@@ -279,7 +277,7 @@ const Transactions = () => {
                   </div>
 
                   <div className="mt-4 smallTablet:mt-0 w-full max-w-full ">
-                    <DatePicker label={"choose Date"} name={'date'} />
+                    <DatePicker label={"choose Date"} name={"date"} />
                   </div>
 
                   <div className="mt-4 smallTablet:mt-0 w-full max-w-full">
