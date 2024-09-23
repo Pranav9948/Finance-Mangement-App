@@ -16,9 +16,9 @@ const HomeLayout = () => {
           <Sidebar />
         </div>
 
-        <div className="w-full h-full bg-[#F2F3F7]">
+        <div className="w-full h-full bg-[#F8F4F0]">
           {isPageLoading ? (
-            <Loader   />
+            <Loader />
           ) : (
             <div>
               <div className="hidden smallTablet:flex">
