@@ -21,40 +21,6 @@ connectDB();
 
 const app = express();
 const port = process.env.PORT || 5000;
-const NODE_ENV = process.env.NODE_ENV;
-
-/**
- *  cross-origin configuration
- *  prevents cross origin error and preflight error
- */
-
-const prodOrigins = [
-  "https://finance-mangement-app-git-full-3e0991-pranavs-projects-162a17c2.vercel.app/",
-  "https://finance-mangement-ob9g1f74g-pranavs-projects-162a17c2.vercel.app/",
-];
-
-const devOrigin = ["http://localhost:5173"];
-const allowedOrigins = NODE_ENV === "production" ? prodOrigins : devOrigin;
-
-console.log("node_env", NODE_ENV);
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      if (NODE_ENV === "production") {
-        if (!origin || allowedOrigins.includes(origin)) {
-          callback(null, true);
-        } else {
-          callback(new Error(`${origin} not allowed by cors`));
-        }
-      } else {
-        callback(null, true);
-      }
-    },
-    optionsSuccessStatus: 200,
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-  })
-);
 
 console.log("port", port);
 
@@ -71,6 +37,26 @@ app.use("/api/users", userRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/pots", potRoutes);
 app.use("/api/recurring-bills", recurringBillsRoutes);
+
+// Environment-based configuration
+if (process.env.NODE_ENV === "production") {
+  const __dirname = path.resolve();
+
+  // Serve static files from the Vite build output ('dist' folder)
+  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+  // Serve the index.html file for all other routes
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+  );
+} else {
+  const __dirname = path.resolve();
+
+  // API route for development
+  app.get("/", (req, res) => {
+    res.send("API is running....");
+  });
+}
 
 app.use(notFound);
 app.use(errorHandler);
