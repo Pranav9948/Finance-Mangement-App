@@ -1,8 +1,10 @@
 import axios from "axios";
 import { store } from "../store";
 
-const baseURL = "http://localhost:5000/api";
-
+const baseURL = process.env.NODE_ENV === 'production'
+  ? "https://budgetbuddyfinancemanagement.onrender.com/api"
+  : "http://localhost:5000/api"; // for local development
+  
 export const customFetch = axios.create({
   baseURL,
 });
