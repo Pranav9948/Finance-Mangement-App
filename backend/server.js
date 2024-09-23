@@ -28,7 +28,12 @@ const NODE_ENV = process.env.NODE_ENV;
  *  prevents cross origin error and preflight error
  */
 
-const prodOrigins = [];
+const prodOrigins = [
+  "https://budgetbuddyfinance-woad.vercel.app",
+  "https://budgetbuddyfinance-git-main-pranavs-projects-162a17c2.vercel.app",
+  "https://budgetbuddyfinance-qic8tej2q-pranavs-projects-162a17c2.vercel.app",
+];
+
 const devOrigin = ["http://localhost:5173"];
 const allowedOrigins = NODE_ENV === "production" ? prodOrigins : devOrigin;
 
