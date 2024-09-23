@@ -46,7 +46,7 @@ export const loader =
       });
 
       const { parentRecurringBill, recurringBill } = data;
-    
+
       store.dispatch(listAllBills(recurringBill));
       store.dispatch(UpdateParentBills(parentRecurringBill));
 
@@ -68,16 +68,12 @@ export const action =
 
     const formdata = Object.fromEntries(await request.formData());
 
-    
-
     try {
       const { data } = await customFetch.post("/recurring-bills", formdata, {
         headers: { "user-id": userId },
       });
 
       const { bill, message, categoryBudget } = data;
-
-      
 
       store.dispatch(createNewBills(bill));
       store.dispatch(createParentBills(parentRecurringBill));
@@ -223,8 +219,6 @@ const Recurringbills = () => {
         categoryBudget,
       } = data;
 
-  
-
       dispatch(setuser(user));
       dispatch(createNewtransaction(transaction));
       dispatch(UpdateParentBills(parentRecurringBill));
@@ -257,7 +251,6 @@ const Recurringbills = () => {
           "user-id": userId,
         },
       });
-      
 
       dispatch(listAllBills(data?.paidBills));
 
@@ -282,7 +275,6 @@ const Recurringbills = () => {
           "user-id": userId,
         },
       });
-    
 
       dispatch(listAllBills(data?.unpaidBills));
 
@@ -310,7 +302,6 @@ const Recurringbills = () => {
           },
         }
       );
-  
 
       dispatch(listAllBills(data?.unpaidBills));
 
@@ -365,7 +356,6 @@ const Recurringbills = () => {
           },
         }
       );
-      
 
       dispatch(listAllBills(data?.unpaidBills));
 
@@ -403,8 +393,6 @@ const Recurringbills = () => {
   };
 
   const getSearchResults = (searchText) => {
-
-
     dispatch(searchBills(searchText));
   };
 
@@ -560,8 +548,8 @@ const Recurringbills = () => {
             {/* recurring-bills-list */}
 
             <div className="smallTablet:row-start-2 smallTablet:row-end-3 smallTablet:col-start-1 smallTablet:col-end-9  laptop:col-start-4 laptop:col-end-9 laptop:row-start-1  bg-white rounded-md shadow-md p-0 smallTablet:p-8 ">
-              <div className="grid grid-cols-8 row-start-1 row-end-2 place-content-between  place-items-center p-5 ">
-                <div className="col-start-1 col-end-5  w-full ">
+              <div className=" grid grid-cols-8 grid-rows-2 smallTablet:grid-rows-1 place-content-between  place-items-center p-5 ">
+                <div className="col-start-1 col-end-8 row-start-1 row-end-2 smallTablet:col-end-4  w-full ">
                   <SearchBar
                     title="search Recurring Bills"
                     getSearchResults={getSearchResults}
@@ -569,7 +557,7 @@ const Recurringbills = () => {
                 </div>
 
                 {showPaidBills && (
-                  <div className="col-start-7 col-end-9 row-start-1 row-end-2">
+                  <div className="col-start-4 col-end-9 row-start-2 row-end-3  smallTablet:row-start-1 smallTablet:row-end-2 smallTablet:col-start-7 smallTablet:col-end-9">
                     <Dropdown title={unpaidTime} icon={<FaSort />}>
                       <Dropdown.Item
                         onClick={() => getUnPaidBillsWithinSevendays()}
@@ -593,7 +581,7 @@ const Recurringbills = () => {
                   </div>
                 )}
 
-                <div className="col-start-5 col-end-7 row-start-1 row-end-2">
+                <div className="col-start-1 col-end-4 row-start-2 row-end-3 smallTablet:row-start-1 smallTablet:row-end-2 smallTablet:col-start-5 smallTablet:col-end-7 ">
                   <Dropdown title={paymentStatus} icon={<FaSort />}>
                     <Dropdown.Item
                       onClick={() => getAllPaidBills()}

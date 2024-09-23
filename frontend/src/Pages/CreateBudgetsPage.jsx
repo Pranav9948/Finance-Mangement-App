@@ -159,7 +159,7 @@ const CreateBudgetsPage = () => {
                 <div className="my-8 smallTablet:my-0 w-full max-w-full smallTablet:flex smallTablet:justify-center smallTablet:items-end">
                   <PrimaryButton
                     bg={"bg-black"}
-                    text={"Create Transaction"}
+                    text={"set Budget"}
                     color={"text-white"}
                     type={"submit"}
                   />

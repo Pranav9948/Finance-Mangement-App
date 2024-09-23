@@ -36,7 +36,7 @@ export const formatToKPrice = (price) => {
 
   let formattedPrice;
 
-  if (price > 10000) {
+  if (price > 1000) {
     // Convert price to thousands (k format)
     formattedPrice = `${(price / 1000).toFixed(1)}k`;
   } else {

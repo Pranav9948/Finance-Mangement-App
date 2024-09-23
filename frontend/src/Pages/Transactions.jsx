@@ -39,6 +39,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import OverviewCard from "../Components/OverviewCard";
 
+
+
+
+
+
 export const action =
   (store) =>
   async ({ request, params }) => {
@@ -48,19 +53,18 @@ export const action =
 
     const formdata = Object.fromEntries(await request.formData());
 
-
     try {
       const { data } = await customFetch.post("/transactions", formdata, {
         headers: { "user-id": userId },
       });
 
       const { transaction, user, message, categoryBudget } = data;
+      console.log('data.',user);
+      
 
       store.dispatch(createNewtransaction(transaction));
       store.dispatch(setuser(user));
       store.dispatch(updatebudget(categoryBudget));
-
-      
 
       toast.success("transactions made successfully");
 

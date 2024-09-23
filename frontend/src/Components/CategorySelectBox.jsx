@@ -17,6 +17,7 @@ const CategorySelectBox = ({
         </div>
         <select
           className="select select-bordered"
+        
           value={selected}
           name={name}
           id="categories"

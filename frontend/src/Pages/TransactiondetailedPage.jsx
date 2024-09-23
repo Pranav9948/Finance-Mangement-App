@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setuser } from "../features/users/userSlice";
 import { deleteTransactions } from "../features/transactions/TransactionSlice";
 
+
+
 export const loader =
   (store) =>
   async ({ params, request }) => {

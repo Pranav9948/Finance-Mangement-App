@@ -22,8 +22,6 @@ export const loader = (store) => async (req, res) => {
   try {
     const userId = store.getState()?.userState?.userInfo?._id;
 
- 
-
     const { data } = await customFetch.get("/pots", {
       headers: { "user-id": userId },
     });
@@ -46,8 +44,6 @@ export const action =
     const userId = userInfo?._id;
 
     const formdata = Object.fromEntries(await request.formData());
-
-
 
     try {
       const { data } = await customFetch.post("/pots", formdata, {
@@ -117,7 +113,6 @@ export const Pots = () => {
         }
       );
 
-
       const { pot, user, transaction } = data;
 
       dispatch(setuser(user));
@@ -148,7 +143,6 @@ export const Pots = () => {
       setWithDrawPotId(withdrawPot._id);
       setWithdrawMoney(true);
 
-    
       try {
         const userId = _id;
 
@@ -161,7 +155,6 @@ export const Pots = () => {
             },
           }
         );
-     
 
         const { pot, user, transaction } = data;
 
@@ -172,11 +165,10 @@ export const Pots = () => {
         setAddMoney(false);
         setAddMoneyId(null);
 
-          setTimeout(() => {
-            setWithDrawPotId(null);
-            setWithdrawMoney(false);
-          }, 4000);
-
+        setTimeout(() => {
+          setWithDrawPotId(null);
+          setWithdrawMoney(false);
+        }, 4000);
 
         return data;
       } catch (err) {
@@ -256,7 +248,7 @@ export const Pots = () => {
                   <div className="my-8 smallTablet:my-0 w-full max-w-full smallTablet:flex smallTablet:justify-center smallTablet:items-end">
                     <PrimaryButton
                       bg={"bg-black"}
-                      text={"Create Transaction"}
+                      text={"Create Pot"}
                       color={"text-white"}
                       type={"submit"}
                     />

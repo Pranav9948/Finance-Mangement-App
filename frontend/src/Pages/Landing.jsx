@@ -6,7 +6,8 @@ import { GiReceiveMoney } from "react-icons/gi";
 import { useSelector } from "react-redux";
 import { customFetch, formatPrice, formatToKPrice, formatDate } from "../utils";
 import { listAllBudgets } from "../features/budgets/BudgetSlice";
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
+import PrimaryButton from "../Components/PrimaryButton";
 
 export const loader = (store) => async (req, res) => {
   try {
@@ -117,10 +118,11 @@ const Landing = () => {
               <h4 className="text-[#201f24] font-sans font-bold text-xl leading-6">
                 Budgets
               </h4>
-
-              <p className="capitalize text-blue-700 underline  text-xs font-sans font-normal leading-5">
-                see details
-              </p>
+              <Link to={"/budgets"}>
+                <p className="capitalize text-blue-700 underline  text-xs font-sans font-normal leading-5">
+                  see details
+                </p>
+              </Link>
             </div>
             <div className="flex flex-col smallTablet:flex-row  laptop:flex-col ">
               <div className="mx-auto my-5 smallTablet:hidden">
@@ -182,37 +184,60 @@ const Landing = () => {
               <h4 className="text-[#201f24] font-sans font-bold text-xl leading-6">
                 Transactions
               </h4>
-
               {/* 1.1.2 total saved cards*/}
-              <p className="capitalize text-blue-700 underline  text-xs font-sans font-normal leading-5">
-                see details
-              </p>
+              <Link to={"/transactions"}>
+                <p className="capitalize text-blue-700 underline  text-xs font-sans font-normal leading-5">
+                  see details
+                </p>
+              </Link>
             </div>
             {/* transaction-card */}
             <div className="flex flex-col gap-5">
-              {latestFourTransactions.map((data, idx) => {
-                return (
-                  <div
-                    className="flex justify-between items-center w-full rounded-md shadow-sm py-4 px-2"
-                    key={idx}
-                  >
-                    <div className="w-12 h-12 rounded-full bg-red-600 flex justify-center items-center overflow-hidden ">
-                      <img src={data?.image} alt="image" className="w-full " />
+              {latestFourTransactions.length > 0 ? (
+                latestFourTransactions.map((data, idx) => {
+                  return (
+                    <div
+                      className="flex justify-between items-center w-full rounded-md shadow-sm py-4 px-2"
+                      key={idx}
+                    >
+                      <div className="w-12 h-12 rounded-full bg-red-600 flex justify-center items-center overflow-hidden ">
+                        <img
+                          src={data?.image}
+                          alt="image"
+                          className="w-full "
+                        />
+                      </div>
+                      <h5 className="font-bold leading-5 text-sm max-w-[80px] text-center  font-sans text-[#201F24] smallTablet:max-w-full ">
+                        {data?.name}
+                      </h5>
+                      <div className="flex flex-col gap-3 ">
+                        <h4 className="text-[#277C78] font-sans text-sm font-bold leading-5">
+                          {formatPrice(data?.amount)}
+                        </h4>
+                        <p className="text-[#696868] font-sans font-normal text-xs leading-4">
+                          {formatDate(data?.date)}
+                        </p>
+                      </div>
                     </div>
-                    <h5 className="font-bold leading-5 text-sm max-w-[80px] text-center  font-sans text-[#201F24] smallTablet:max-w-full ">
-                      {data?.name}
-                    </h5>
-                    <div className="flex flex-col gap-3 ">
-                      <h4 className="text-[#277C78] font-sans text-sm font-bold leading-5">
-                        {formatPrice(data?.amount)}
-                      </h4>
-                      <p className="text-[#696868] font-sans font-normal text-xs leading-4">
-                        {formatDate(data?.date)}
-                      </p>
-                    </div>
+                  );
+                })
+              ) : (
+                <div className="flex flex-col justify-center items-center gap-8 py-20 w-full bg-white shadow-sm">
+                  {" "}
+                  <h3 className=" text-xl smallTablet:text-3xl font-semibold">
+                    No Transactions yet
+                  </h3>{" "}
+                  <div>
+                    <Link to={"/transactions"}>
+                      <PrimaryButton
+                        bg={"bg-black"}
+                        text={"+ Add New Transaction"}
+                        color={"text-white"}
+                      />
+                    </Link>
                   </div>
-                );
-              })}
+                </div>
+              )}
             </div>
           </div>
 
@@ -225,11 +250,12 @@ const Landing = () => {
               <h4 className="text-[#201f24] font-sans font-bold text-xl leading-6">
                 Recurring Bills
               </h4>
-
               {/* 1.1.2 total saved cards*/}
-              <p className="capitalize text-blue-700 underline  text-xs font-sans font-normal leading-5">
-                see details
-              </p>
+              <Link to={"/recurring-bills"}>
+                <p className="capitalize text-blue-700 underline  text-xs font-sans font-normal leading-5">
+                  see details
+                </p>
+              </Link>
             </div>
             <div className="flex flex-col gap-5">
               {recurringBillsData.map((data) => {
@@ -254,70 +280,98 @@ const Landing = () => {
           {/* pots */}
 
           <div className="laptop:col-start-4 laptop:col-end-9    ">
-            {" "}
-            {/* laptop:row-start-1 laptop:row-end-3 */}
-            <div className=" px-6 py-10 gap-7   bg-white rounded-md ">
-              {/* 1.1 */}
+            {latestFourPots.length > 0 ? (
+              <div className=" px-6 py-10 gap-7   bg-white rounded-md ">
+                {/* 1.1 */}
 
-              <div className="flex justify-between items-center mb-10">
-                <h4 className="text-[#201f24] font-sans font-bold text-xl leading-6">
-                  Pots
-                </h4>
+                <div className="flex justify-between items-center mb-10">
+                  <h4 className="text-[#201f24] font-sans font-bold text-xl leading-6">
+                    Pots
+                  </h4>
+                  {/* 1.1.2 total saved cards*/}
+                  <Link to={"/pots"}>
+                    <p className="capitalize text-blue-700 underline text-xs font-sans font-normal leading-5">
+                      see details
+                    </p>
+                  </Link>
+                </div>
 
-                {/* 1.1.2 total saved cards*/}
-                <p className="capitalize text-blue-700 underline text-xs font-sans font-normal leading-5">
-                  see details
-                </p>
-              </div>
+                <div className="flex flex-col  gap-10 smallTablet:grid smallTablet:grid-cols-8">
+                  <div className="flex flex-col gap-5 w-full mb-6 smallTablet:mb-0  smallTablet:col-span-3">
+                    {/* 1.1.1 pots and see details button   */}
 
-              <div className="flex flex-col  gap-10 smallTablet:grid smallTablet:grid-cols-8">
-                <div className="flex flex-col gap-5 w-full mb-6 smallTablet:mb-0  smallTablet:col-span-3">
-                  {/* 1.1.1 pots and see details button   */}
+                    <div className="bg-[#F8F4F0] p-4 rounded-md shadow-md flex justify-center items-center gap-4 ">
+                      {/* icon */}
+                      <div>
+                        <GiReceiveMoney className="text-5xl text-yellow-500" />
+                      </div>
 
-                  <div className="bg-[#F8F4F0] p-4 rounded-md shadow-md flex justify-center items-center gap-4 ">
-                    {/* icon */}
-                    <div>
-                      <GiReceiveMoney className="text-5xl text-yellow-500" />
+                      {/* total saved */}
+
+                      <div className="flex flex-col items-center gap-3">
+                        <p className="capitalize text-[#696868] font-sans font-normal leading-5">
+                          total saved
+                        </p>
+
+                        <h3 className="text-[#201F24] font-sans font-bold leading-9 text-3xl">
+                          {formatToKPrice(sumOfSavedPots)}
+                        </h3>
+                      </div>
                     </div>
+                  </div>
 
-                    {/* total saved */}
+                  {/* 1.2   4 cards*/}
 
-                    <div className="flex flex-col items-center gap-3">
-                      <p className="capitalize text-[#696868] font-sans font-normal leading-5">
-                        total saved
-                      </p>
-
-                      <h3 className="text-[#201F24] font-sans font-bold leading-9 text-3xl">
-                        {formatToKPrice(sumOfSavedPots)}
-                      </h3>
-                    </div>
+                  <div className="grid grid-cols-1  mobile:grid-cols-2 gap-4 smallTablet:w-full smallTablet:col-span-5  ">
+                    {latestFourPots.map((pots) => {
+                      return (
+                        <div
+                          key={pots?._id}
+                          style={{ borderColor: `${pots?.color}` }}
+                          className={`bg-white py-2 px-4 w-full border-l-4 rounded-md flex flex-col items-start gap-2 ${pots.color}`}
+                        >
+                          <h6 className="text-[#696868] font-sans text-sm font-normal leading-5 ">
+                            {pots?.name}
+                          </h6>
+                          <h4 className="text-[#201F24] font-bold text-md leading-5 font-sans ">
+                            {formatPrice(pots?.savedAmount)}
+                          </h4>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/* 1.2   4 cards*/}
+                {/* --1-- */}
+              </div>
+            ) : (
+              <div className="flex flex-col justify-center items-center gap-8 pt-6 pb-12 w-full bg-white shadow-sm">
+                <div className="flex justify-between items-center mb-10 w-full px-10">
+                  <h4 className="text-[#201f24] font-sans font-bold text-xl leading-6">
+                    Pots
+                  </h4>
 
-                <div className="grid grid-cols-1  mobile:grid-cols-2 gap-4 smallTablet:w-full smallTablet:col-span-5  ">
-                  {latestFourPots.map((pots) => {
-                    return (
-                      <div
-                        key={pots?._id}
-                        style={{ borderColor: `${pots?.color}` }}
-                        className={`bg-white py-2 px-4 w-full border-l-4 rounded-md flex flex-col items-start gap-2 ${pots.color}`}
-                      >
-                        <h6 className="text-[#696868] font-sans text-sm font-normal leading-5 ">
-                          {pots?.name}
-                        </h6>
-                        <h4 className="text-[#201F24] font-bold text-md leading-5 font-sans ">
-                          {formatPrice(pots?.savedAmount)}
-                        </h4>
-                      </div>
-                    );
-                  })}
+                  {/* 1.1.2 total saved cards*/}
+                  <Link to={"/pots"}>
+                    <p className="capitalize text-blue-700 underline text-xs font-sans font-normal leading-5">
+                      see details
+                    </p>
+                  </Link>
+                </div>
+                <h3 className=" text-xl smallTablet:text-3xl font-semibold">
+                  No pots yet
+                </h3>{" "}
+                <div>
+                  <Link to={"/pots"}>
+                    <PrimaryButton
+                      bg={"bg-black"}
+                      text={"+ Add New Pot"}
+                      color={"text-white"}
+                    />
+                  </Link>
                 </div>
               </div>
-
-              {/* --1-- */}
-            </div>
+            )}
           </div>
         </div>
         ;{/* m */}

@@ -1,6 +1,9 @@
 import React from "react";
 import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
 import {
   ErrorPage,
   LandingPage,
@@ -34,6 +37,9 @@ import { loader as BudgetsLoader } from "./Pages/Budgets";
 import { loader as CreateBudgetsLoader } from "./Pages/CreateBudgetsPage";
 import { action as CreateBudgetsAction } from "./Pages/CreateBudgetsPage";
 import PrivateRoute from "./Components/PrivateRoutes";
+
+
+
 
 const router = createBrowserRouter([
   {

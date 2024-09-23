@@ -21,8 +21,8 @@ export const action =
 
       return redirect("/");
     } catch (err) {
-      console.log('err',err);
-      
+      console.log("err", err);
+
       let errorMsg = err?.response?.data?.message;
       console.error(errorMsg);
       toast.error(errorMsg);
@@ -45,12 +45,12 @@ const Register = () => {
 
           <div className="w-full max-w-full  rounded-lg shadow-md py-6 px-5 smallTablet:px-10 smallDekstop:h-full smallDekstop:shadow-none smallDekstop:rounded-none ">
             <h4 className="capitalize font-sans text-[#201f24] font-bold leading-10 my-6 text-2xl smallTablet:text-3xl">
-              login
+              Register
             </h4>
 
             <Form method="post">
               <div>
-                <FormInput label="username" type="text" name="username"  />
+                <FormInput label="username" type="text" name="username" />
               </div>
               <div className="mt-4">
                 <FormInput label="email" type="text" name="email" />

@@ -11,11 +11,11 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "data:import": "node backend/seeder",
     "data:destroy": "node backend/seeder -D"
-  
   },
   "author": "Pranav",
   "license": "ISC",
   "dependencies": {
+    "@tanstack/react-query": "^5.56.2",
     "@uiw/react-color": "^2.3.0",
     "bcryptjs": "^2.4.3",
     "classnames": "^2.5.1",

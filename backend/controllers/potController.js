@@ -85,7 +85,7 @@ export const addMoney = asyncHandler(async (req, res) => {
         userId: userId,
         image:
           "https://plus.unsplash.com/premium_photo-1677207979103-180962cfb05e?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        name: `Added to pot: ${pot.name}`,
+        name: `pot: ${pot.name}`,
         category: "Pot Savings",
         type: "Debit",
         amount: savedAmount,
@@ -132,7 +132,7 @@ export const withDrawMoney = asyncHandler(async (req, res) => {
       userId: userId,
       image:
         "https://plus.unsplash.com/premium_photo-1677207979103-180962cfb05e?q=80&w=1528&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      name: `Added to pot: ${pot.name}`,
+      name: `Pot: ${pot.name}`,
       category: "Pot Savings",
       type: "Credit",
       amount: Number(pot.savedAmount),

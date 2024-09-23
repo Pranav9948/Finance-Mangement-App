@@ -123,7 +123,10 @@ const Budgets = () => {
             <div className="flex flex-col gap-6 w-full">
               {data.map((datas) => {
                 return (
-                  <div className="p-2 smallMobile:p-4 p-6 bg-white rounded-md shadow-sm w-full ">
+                  <div
+                    key={datas._id}
+                    className="p-2 smallMobile:p-4 p-6 bg-white rounded-md shadow-sm w-full "
+                  >
                     {/* header */}
 
                     <div className="flex items-center justify-between mb-5 w-full ">
@@ -214,7 +217,6 @@ const Budgets = () => {
                       {/* body */}
 
                       <div className="flex flex-col  ">
-                   
                         {datas?.transactionIds?.map((eachData, idx) => {
                           return (
                             <div
