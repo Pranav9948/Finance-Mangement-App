@@ -29,9 +29,8 @@ const NODE_ENV = process.env.NODE_ENV;
  */
 
 const prodOrigins = [
-  "https://budgetbuddyfinance-woad.vercel.app",
-  "https://budgetbuddyfinance-git-main-pranavs-projects-162a17c2.vercel.app",
-  "https://budgetbuddyfinance-qic8tej2q-pranavs-projects-162a17c2.vercel.app",
+  "https://finance-mangement-app-git-full-3e0991-pranavs-projects-162a17c2.vercel.app/",
+  "https://finance-mangement-ob9g1f74g-pranavs-projects-162a17c2.vercel.app/",
 ];
 
 const devOrigin = ["http://localhost:5173"];
