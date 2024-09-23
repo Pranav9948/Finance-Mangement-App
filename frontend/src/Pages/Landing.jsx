@@ -72,8 +72,8 @@ const Landing = () => {
   ];
 
   return (
-    <div className="h-full">
-      <div className="small-main-menu-container  large-main-menu-container h-full  ">
+    <div className="h-full w-full ">
+      <div className="small-main-menu-container  large-main-menu-container h-full w-full ">
         <h3 className="capitalize py-8 text-[#201f24] font-sans font-bold leading-10 text-3xl smallTablet:text-4xl smallDekstop:text-5xl">
           Overview
         </h3>
@@ -108,7 +108,7 @@ const Landing = () => {
         </div>
         {/* second section--- pots, budget  */}
         {/* grid-structure */}
-        <div className="grid laptop:grid-cols-8    gap-6  my-12 pb-12">
+        <div className="grid laptop:grid-cols-8  w-full    gap-6  my-12 pb-12">
           {/* budgets */}
 
           <div className=" laptop:col-start-1 laptop:col-end-6     bg-white rounded-md shadow-md pt-5 px-5 ">
@@ -177,7 +177,7 @@ const Landing = () => {
 
           {/* transaction */}
 
-          <div className="laptop:col-start-6 laptop:col-end-9 laptop:row-start-1  bg-white rounded-md shadow-md py-6 px-2 mobile:px-6 ">
+          <div className="laptop:col-start-6 laptop:col-end-9 laptop:row-start-1  bg-white rounded-md shadow-md py-6 px-5 ">
             {" "}
             {/* laptop:row-start-3 laptop:row-end-6 */}
             <div className="flex justify-between items-center mb-10">
@@ -281,7 +281,7 @@ const Landing = () => {
 
           <div className="laptop:col-start-4 laptop:col-end-9    ">
             {latestFourPots.length > 0 ? (
-              <div className=" px-6 py-10 gap-7   bg-white rounded-md ">
+              <div className=" px-5 py-10 gap-7   bg-white rounded-md ">
                 {/* 1.1 */}
 
                 <div className="flex justify-between items-center mb-10">

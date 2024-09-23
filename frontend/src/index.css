@@ -3,15 +3,15 @@
 @tailwind utilities;
 
 .section-container {
-  @apply container px-2 smallMobile:px-5 smallTablet:mx-auto    smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl laptop:max-w-6xl largeDekstop:max-w-7xl;
+  @apply smallTablet:container  px-5 smallTablet:mx-auto    smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl laptop:max-w-6xl largeDekstop:max-w-7xl;
 }
 
 .cart-container {
-  @apply container px-2 smallTablet:mx-auto   smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl laptop:max-w-6xl largeDekstop:max-w-7xl smallTablet:px-5 smallDekstop:px-10;
+  @apply smallTablet:container  smallTablet:mx-auto  px-5   smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl laptop:max-w-6xl largeDekstop:max-w-7xl smallTablet:px-5 smallDekstop:px-10;
 }
 
 .small-main-menu-container {
-  @apply container px-2 smallMobile:px-5 smallTablet:mx-auto  smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl;
+  @apply  px-5  smallTablet:mx-auto smallTablet:container  smallTablet:max-w-2xl largeTablet:max-w-3xl  smallDekstop:max-w-4xl;
 }
 
 .large-main-menu-container {
