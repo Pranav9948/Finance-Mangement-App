@@ -10,13 +10,13 @@ const SelectBox = ({ label, id, name, datas, value }) => {
           </span>
         </div>
         <select
-          className="select select-bordered"
+          className="p-3 rounded-md border-2 border-gray-400"
           name={name}
           id={id}
           defaultValue=""
           value={value}
         >
-          <option disabled selected value="">
+          <option disabled selected value="" className="text-blue-700">
             Pick one
           </option>
 

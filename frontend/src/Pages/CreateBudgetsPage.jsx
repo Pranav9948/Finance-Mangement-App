@@ -103,7 +103,7 @@ const CreateBudgetsPage = () => {
   return (
     <div className="bg-[#F8F4F0] ">
       <div className="small-main-menu-container  large-main-menu-container   h-full  ">
-        <div className="flex flex-col py-10 w-full my-10 justify-center items-center bg-white rounded-md shadow-sm smallTablet:px-10 smallDekstop:px-20 largeDekstop:px-28">
+        <div className="flex flex-col py-10 w-full my-10 justify-center items-center bg-white rounded-md shadow-sm px-5 smallTablet:px-10 smallDekstop:px-20 largeDekstop:px-28">
           <h5 className="capitalize text-xl font-bold ">create new Budget</h5>
 
           {result.length > 0 && (

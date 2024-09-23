@@ -16,8 +16,7 @@ const CategorySelectBox = ({
           </span>
         </div>
         <select
-          className="select select-bordered"
-        
+          className="p-3 rounded-md border-2 border-gray-400"
           value={selected}
           name={name}
           id="categories"
